@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { CarWithOwner } from '@/data/mockCars';
-import { formatPrice, formatMileage, formatViews } from '@/data/mockCars';
+import { formatPrice, formatMileage } from '@/data/mockCars';
 import { Button } from '@/components/ui/button';
 import { DataService } from '@/services/DataService';
 import {
   Heart,
   Share,
   User,
-  Briefcase,
-  MessageCircle,
   ShoppingCart,
   ChevronLeft,
   Fuel,
@@ -20,7 +18,7 @@ interface CarTokProps {
   car: CarWithOwner;
   isActive: boolean;
   feedType?: 'sales' | 'rental';
-  onShowProfile?: (ownerId: string) => void; // Nouvelle prop pour afficher le profil
+  onShowProfile?: (ownerId: string) => void;
   onGoBack?: () => void;
 }
 
@@ -35,6 +33,7 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
       }
     }
   }, [feedType]);
+
   const [showDetails, setShowDetails] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -78,27 +77,27 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
           {onGoBack && (
             <button
               onClick={onGoBack}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md shadow-lg"
             >
               <ChevronLeft className="h-5 w-5 text-white" />
             </button>
           )}
 
           {/* Logo CT only */}
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl flex-shrink-0 shadow-lg bg-white/10 backdrop-blur-md">
-            <span className="text-xl font-bold text-white">CT</span>
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md shadow-lg">
+            <span className="text-lg font-bold text-white">CT</span>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg">
+          <button className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md shadow-lg">
             <Heart className="h-5 w-5 text-white" />
           </button>
-          <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg">
+          <button className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md shadow-lg">
             <Share className="h-5 w-5 text-white" />
           </button>
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md shadow-lg"
             onClick={() => onShowProfile && onShowProfile(car.ownerId)}
           >
             <User className="h-5 w-5 text-white" />
@@ -106,14 +105,11 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
         </div>
       </header>
 
-      {/* Right Action Bar - Negotiate button - Removed */}
-      {/* Profil du propriétaire - Removed */}
-
       {/* Main Content */}
       <div className="relative z-10 flex flex-col h-full pt-4 pb-32">
         {/* Product Title */}
         <div className="px-4 pt-2">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">
+          <h1 className="text-2xl font-bold text-white mb-1">
             {car.brand} {car.model}
           </h1>
           <div className="flex items-center gap-2 text-white/80">
@@ -128,31 +124,34 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
         {/* Price with promotional display */}
         <div className="px-4 py-4">
           <div className="flex items-center gap-2">
-            <p className="text-2xl md:text-3xl font-bold text-[#E91E63]">
+            <p className="text-2xl font-bold text-[#E91E63]">
               {formatPrice(car.price)}
             </p>
             {car.originalPrice && (
-              <p className="text-lg text-white/50 line-through">
+              <p className="text-base text-white/50 line-through">
                 {formatPrice(car.originalPrice)}
               </p>
             )}
           </div>
         </div>
 
-        {/* Characteristics - Horizontal scrollable row */}
+        {/* Characteristics - Simple grid */}
         <div className="px-4 py-3">
-          <div className="flex gap-3 overflow-x-auto pb-2 hide-scrollbar">
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-[#1A1A1A] rounded-full flex-shrink-0">
-              <Gauge className="h-4 w-4 text-white" />
-              <span className="text-sm text-white">{formatMileage(car.mileage)}</span>
+          <div className="grid grid-cols-3 gap-3">
+            <div className="bg-zinc-900 p-3 rounded-2xl border border-white/5 flex flex-col items-center">
+              <Gauge size={18} className="text-pink-500 mb-1" />
+              <span className="text-[10px] uppercase text-zinc-500">Km</span>
+              <span className="text-xs font-semibold">{formatMileage(car.mileage)}</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-[#1A1A1A] rounded-full flex-shrink-0">
-              <Fuel className="h-4 w-4 text-white" />
-              <span className="text-sm text-white capitalize">{car.fuelType}</span>
+            <div className="bg-zinc-900 p-3 rounded-2xl border border-white/5 flex flex-col items-center">
+              <Fuel size={18} className="text-pink-500 mb-1" />
+              <span className="text-[10px] uppercase text-zinc-500">Carburant</span>
+              <span className="text-xs font-semibold capitalize">{car.fuelType}</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-[#1A1A1A] rounded-full flex-shrink-0">
-              <Calendar className="h-4 w-4 text-white" />
-              <span className="text-sm text-white capitalize">{car.transmission}</span>
+            <div className="bg-zinc-900 p-3 rounded-2xl border border-white/5 flex flex-col items-center">
+              <Calendar size={18} className="text-pink-500 mb-1" />
+              <span className="text-[10px] uppercase text-zinc-500">Boîte</span>
+              <span className="text-xs font-semibold capitalize">{car.transmission}</span>
             </div>
           </div>
         </div>
@@ -213,66 +212,16 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
         </div>
       </div>
 
-      {/* Sticky Bottom Action Button - Acheter maintenant with blur effect */}
-      <div className="absolute bottom-24 left-4 right-4 z-20">
-        <div className="bg-black/30 backdrop-blur-xl p-3 rounded-xl">
-          <Button
-            onClick={handleWhatsApp}
-            className="w-full py-6 rounded-lg bg-[#E91E63] hover:bg-[#D81B60] text-lg font-bold shadow-lg"
-          >
-            <ShoppingCart className="h-5 w-5 mr-2" />
-            Acheter maintenant
-          </Button>
-        </div>
+      {/* Fixed purchase button at bottom */}
+      <div className="fixed bottom-4 left-4 right-4 z-20 px-4">
+        <Button
+          onClick={handleWhatsApp}
+          className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-transform active:scale-95"
+        >
+          <ShoppingCart size={20} />
+          Acheter maintenant
+        </Button>
       </div>
-
-      {/* Bottom Navigation with Active State */}
-      <nav className="safe-bottom absolute bottom-0 left-0 right-0 z-40 bg-black/30 backdrop-blur-xl border-t border-white/10">
-        <div className="flex items-center justify-around px-4 py-3">
-          <button className="flex flex-col items-center gap-1 text-white/70">
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <span className="text-xs">Accueil</span>
-          </button>
-
-          <button className="flex flex-col items-center gap-1 text-white/70">
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <span className="text-xs">Recherche</span>
-          </button>
-
-          <button className="flex flex-col items-center gap-1 text-[#E91E63]">
-            <ShoppingCart className="h-8 w-8 bg-[#E91E63]/20 rounded-full p-1.5" />
-            <span className="text-xs text-[#E91E63] font-medium">Acheter</span>
-          </button>
-
-          <button className="flex flex-col items-center gap-1 text-white/70">
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-            <span className="text-xs">Favoris</span>
-          </button>
-
-          <button className="flex flex-col items-center gap-1 text-white/70">
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            <span className="text-xs">Profil</span>
-          </button>
-        </div>
-      </nav>
-
-      <style jsx>{`
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </div>
   );
 };
