@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="45" fill="#93c5fd"/>
+  
+  <!-- User icon -->
+  <circle cx="50" cy="40" r="20" fill="#fbbf24"/>
+  <rect x="30" y="60" width="40" height="30" rx="5" fill="#60a5fa"/>
+  
+  <!-- Name initial -->
+  <text x="50" y="55" font-family="Arial" font-size="20" fill="#1e40af" text-anchor="middle">TB</text>
+</svg>

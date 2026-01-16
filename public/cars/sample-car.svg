@@ -1,0 +1,48 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#f0f0f0"/>
+  
+  <!-- Sky -->
+  <rect x="0" y="0" width="800" height="300" fill="#87CEEB"/>
+  
+  <!-- Sun -->
+  <circle cx="700" cy="80" r="50" fill="#FFD700"/>
+  
+  <!-- Road -->
+  <rect x="0" y="400" width="800" height="200" fill="#555555"/>
+  
+  <!-- Road markings -->
+  <g stroke="#FFFFFF" stroke-width="10">
+    <line x1="0" y1="500" x2="200" y2="500"/>
+    <line x1="300" y1="500" x2="500" y2="500"/>
+    <line x1="600" y1="500" x2="800" y2="500"/>
+  </g>
+  
+  <!-- Car body -->
+  <rect x="250" y="350" width="300" height="100" rx="15" ry="15" fill="#FF4136"/>
+  
+  <!-- Car roof -->
+  <rect x="320" y="300" width="160" height="80" rx="10" ry="10" fill="#FF4136"/>
+  
+  <!-- Windshield -->
+  <polygon points="330,300 470,300 450,370 350,370" fill="#87CEEB" opacity="0.7"/>
+  
+  <!-- Wheels -->
+  <circle cx="300" cy="430" r="25" fill="#333333"/>
+  <circle cx="300" cy="430" r="15" fill="#AAAAAA"/>
+  
+  <circle cx="500" cy="430" r="25" fill="#333333"/>
+  <circle cx="500" cy="430" r="15" fill="#AAAAAA"/>
+  
+  <!-- Windows -->
+  <rect x="340" y="320" width="120" height="40" rx="5" ry="5" fill="#87CEEB" opacity="0.7"/>
+  
+  <!-- Headlights -->
+  <circle cx="540" cy="390" r="8" fill="#FFFF00"/>
+  
+  <!-- Details -->
+  <rect x="280" y="380" width="240" height="10" fill="#DDDDDD"/>
+  
+  <!-- Brand -->
+  <text x="400" y="410" font-family="Arial" font-size="24" fill="white" text-anchor="middle">CARSTOK</text>
+</svg>

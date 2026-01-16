@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0A0A0B" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <title>CARSTOK | Le TikTok Automobile du Gabon</title>
+    <meta name="description" content="Achetez et vendez des voitures au Gabon avec CARSTOK. Vidéos immersives, scan IA Elyndra, et négociation directe WhatsApp." />
+    
+    <meta property="og:title" content="CARSTOK - Marketplace Auto du Gabon" />
+    <meta property="og:description" content="Le TikTok de l'automobile. Scan IA, vidéos 9:16, négociation WhatsApp." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@CARSTOK" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="dark">
+    <div id="root"></div>
+    <button id="installAppBtn" style="display:none; background-color: #7000FF; color: white; padding: 10px 20px; border-radius: 25px; border: none; font-weight: bold; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+      🚀 Installer l'application CARSTOK
+    </button>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+
+      // PWA Installation Code
+      let deferredPrompt;
+      const installBtn = document.getElementById('installAppBtn');
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // 1. Empêcher Chrome d'afficher sa propre bannière automatique
+        e.preventDefault();
+        // 2. Stocker l'événement pour l'utiliser plus tard
+        deferredPrompt = e;
+        // 3. Afficher ton bouton personnalisé
+        installBtn.style.display = 'block';
+      });
+
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          // 4. Déclencher l'invitation à l'installation
+          deferredPrompt.prompt();
+          // 5. Attendre la réponse de l'utilisateur (Accepté ou Refusé)
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`L'utilisateur a ${outcome} l'installation`);
+
+          // 6. Une fois installé ou refusé, on cache le bouton
+          deferredPrompt = null;
+          installBtn.style.display = 'none';
+        }
+      });
+
+      // Optionnel : Cacher le bouton une fois l'app installée
+      window.addEventListener('appinstalled', () => {
+        console.log('CARSTOK a été installée avec succès !');
+        installBtn.style.display = 'none';
+      });
+    </script>
+  </body>
+</html>

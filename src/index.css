@@ -1,0 +1,263 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+@layer base {
+  :root {
+    /* TikTok-inspired Dark Theme */
+    --background: 0 0% 4%;
+    --foreground: 330 100% 60%; /* TikTok pink */
+
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 95%;
+
+    /* TikTok Pink Primary */
+    --primary: 330 100% 60%; /* Bright pink similar to TikTok */
+    --primary-foreground: 0 0% 100%; /* White text on pink background */
+
+    /* Dark Gray Secondary */
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 330 100% 60%; /* TikTok pink */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 330 100% 60%; /* TikTok pink */
+
+    --radius: 0.75rem;
+
+    /* Custom TikTok-inspired tokens */
+    --pink-gradient: linear-gradient(135deg, hsl(330 100% 60%) 0%, hsl(310 100% 50%) 100%);
+    --pink-glow: 0 0 30px hsla(330, 100%, 60%, 0.3);
+    --card-shadow: 0 4px 20px hsla(0, 0%, 0%, 0.5);
+    --video-overlay: linear-gradient(180deg, transparent 0%, transparent 30%, hsla(0, 0%, 4%, 0.85) 70%, hsla(0, 0%, 4%, 0.95) 100%);
+    --video-overlay-light: linear-gradient(180deg, transparent 0%, transparent 40%, hsla(0, 0%, 4%, 0.7) 70%, hsla(0, 0%, 4%, 0.8) 100%);
+
+    /* WhatsApp Green */
+    --whatsapp: 142 70% 45%;
+    --whatsapp-foreground: 0 0% 100%;
+
+    /* Elyndra Blue */
+    --elyndra: 210 100% 55%;
+    --elyndra-foreground: 0 0% 100%;
+  }
+
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 95%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+}
+
+@layer components {
+  .gradient-gold {
+    background: var(--pink-gradient);
+  }
+
+  .glow-gold {
+    box-shadow: var(--pink-glow);
+  }
+
+  .text-gradient-gold {
+    background: var(--pink-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .video-overlay {
+    background: var(--video-overlay);
+  }
+  
+  .glass-dark {
+    background: hsla(0, 0%, 7%, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  .scan-pulse {
+    animation: scanPulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes scanPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 hsla(45, 100%, 50%, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 15px hsla(45, 100%, 50%, 0);
+    }
+  }
+  
+  .slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .trend-badge {
+    animation: trendPulse 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes trendPulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  .animate-scan-line {
+    animation: scanLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scanLine {
+    0%, 100% { transform: translateY(-100%); }
+    50% { transform: translateY(100%); }
+  }
+
+  /* Micro-interactions */
+  .btn-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-active {
+    transition: transform 0.1s ease;
+  }
+
+  .btn-active:active {
+    transform: scale(0.95);
+  }
+
+  /* Pulse animation for important elements */
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 15px rgba(255, 107, 107, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+    }
+  }
+}
+
+/* Hide scrollbar for video feed */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe area for mobile */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 20px);
+}
+
+/* Custom animations for tab transitions */
+.animate-pulse-slow {
+  animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Red theme for location feed */
+.location-theme {
+  --primary: 0 100% 50%; /* Red color */
+  --primary-foreground: 0 0% 100%; /* White text on red background */
+  --accent: 0 100% 50%; /* Red accent */
+  --accent-foreground: 0 0% 100%;
+  --ring: 0 100% 50%; /* Red ring */
+  --red-gradient: linear-gradient(135deg, hsl(0 100% 50%) 0%, hsl(10 100% 45%) 100%);
+  --red-glow: 0 0 30px hsla(0, 100%, 50%, 0.3);
+}
+
+.location-theme .gradient-gold {
+  background: var(--red-gradient);
+}
+
+.location-theme .glow-gold {
+  box-shadow: var(--red-glow);
+}
+
+.location-theme .text-gradient-gold {
+  background: var(--red-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
