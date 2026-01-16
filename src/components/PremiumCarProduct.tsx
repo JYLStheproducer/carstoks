@@ -8,7 +8,6 @@ import {
   Share,
   User,
   Briefcase,
-  MessageCircle,
   ShoppingCart,
   ChevronLeft,
   Fuel,
@@ -16,25 +15,15 @@ import {
   Calendar
 } from 'lucide-react';
 
-interface CarTokProps {
+interface PremiumCarProductProps {
   car: CarWithOwner;
   isActive: boolean;
   feedType?: 'sales' | 'rental';
-  onShowProfile?: (ownerId: string) => void; // Nouvelle prop pour afficher le profil
+  onShowProfile?: (ownerId: string) => void;
   onGoBack?: () => void;
 }
 
-const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: CarTokProps) => {
-  // Apply red theme when on rental feed
-  useEffect(() => {
-    if (typeof document !== 'undefined' && typeof window !== 'undefined') {
-      if (feedType === 'rental') {
-        document.documentElement.classList.add('location-theme');
-      } else {
-        document.documentElement.classList.remove('location-theme');
-      }
-    }
-  }, [feedType]);
+const PremiumCarProduct = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: PremiumCarProductProps) => {
   const [showDetails, setShowDetails] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -57,7 +46,7 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
   return (
     <div className="relative h-full w-full overflow-hidden bg-background">
       {/* Hero Section - Image with skeleton loader */}
-      <div className="relative h-[35vh]">
+      <div className="relative h-2/5">
         {!imageLoaded && (
           <div className="absolute inset-0 bg-gray-800 animate-pulse" />
         )}
@@ -76,14 +65,14 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
         <div className="flex items-center gap-3 min-w-0">
           {/* Back button */}
           {onGoBack && (
-            <button
+            <button 
               onClick={onGoBack}
               className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg"
             >
               <ChevronLeft className="h-5 w-5 text-white" />
             </button>
           )}
-
+          
           {/* Logo CT only */}
           <div className="flex h-12 w-12 items-center justify-center rounded-xl flex-shrink-0 shadow-lg bg-white/10 backdrop-blur-md">
             <span className="text-xl font-bold text-white">CT</span>
@@ -97,7 +86,7 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
           <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg">
             <Share className="h-5 w-5 text-white" />
           </button>
-          <button
+          <button 
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg"
             onClick={() => onShowProfile && onShowProfile(car.ownerId)}
           >
@@ -105,9 +94,6 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
           </button>
         </div>
       </header>
-
-      {/* Right Action Bar - Negotiate button - Removed */}
-      {/* Profil du propriétaire - Removed */}
 
       {/* Main Content */}
       <div className="relative z-10 flex flex-col h-full pt-4 pb-32">
@@ -164,10 +150,10 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
             className="w-full flex items-center justify-between p-3 bg-white/10 backdrop-blur-md rounded-xl text-white"
           >
             <span>Détails et équipements</span>
-            <svg
-              className={`h-5 w-5 transform transition-transform ${showDetails ? 'rotate-180' : ''}`}
-              fill="none"
-              viewBox="0 0 24 24"
+            <svg 
+              className={`h-5 w-5 transform transition-transform ${showDetails ? 'rotate-180' : ''}`} 
+              fill="none" 
+              viewBox="0 0 24 24" 
               stroke="currentColor"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -180,7 +166,7 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
                 <h3 className="font-semibold text-white mb-2">Équipements</h3>
                 <div className="flex flex-wrap gap-2">
                   {car.features.map((feature, index) => (
-                    <span
+                    <span 
                       key={index}
                       className="px-3 py-1.5 bg-white/10 rounded-full text-sm text-white"
                     >
@@ -213,10 +199,10 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
         </div>
       </div>
 
-      {/* Sticky Bottom Action Button - Acheter maintenant with blur effect */}
+      {/* Sticky Bottom Action Button - Acheter maintenant */}
       <div className="absolute bottom-24 left-4 right-4 z-20">
         <div className="bg-black/30 backdrop-blur-xl p-3 rounded-xl">
-          <Button
+          <Button 
             onClick={handleWhatsApp}
             className="w-full py-6 rounded-lg bg-[#E91E63] hover:bg-[#D81B60] text-lg font-bold shadow-lg"
           >
@@ -235,26 +221,26 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
             </svg>
             <span className="text-xs">Accueil</span>
           </button>
-
+          
           <button className="flex flex-col items-center gap-1 text-white/70">
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <span className="text-xs">Recherche</span>
           </button>
-
+          
           <button className="flex flex-col items-center gap-1 text-[#E91E63]">
             <ShoppingCart className="h-8 w-8 bg-[#E91E63]/20 rounded-full p-1.5" />
             <span className="text-xs text-[#E91E63] font-medium">Acheter</span>
           </button>
-
+          
           <button className="flex flex-col items-center gap-1 text-white/70">
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
             <span className="text-xs">Favoris</span>
           </button>
-
+          
           <button className="flex flex-col items-center gap-1 text-white/70">
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -263,7 +249,7 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
           </button>
         </div>
       </nav>
-
+      
       <style jsx>{`
         .hide-scrollbar {
           -ms-overflow-style: none;
@@ -277,4 +263,4 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile, onGoBack }: 
   );
 };
 
-export default CarTok;
+export default PremiumCarProduct;
