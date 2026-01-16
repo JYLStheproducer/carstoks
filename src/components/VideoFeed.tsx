@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { DataService } from '@/services/DataService';
-import CarTok from './CarTok';
+import CarTok from './CarTok'; // Using the original for now, but could be swapped with PremiumProductPage
 import ProfileOwner from './ProfileOwner';
 import BackgroundTransition from './BackgroundTransition';
 
@@ -145,9 +145,9 @@ const VideoFeed = ({ feedType = 'sales' }: VideoFeedProps) => {
           key={car.id}
           className="h-screen w-full snap-start pb-32" // Increased padding at bottom to account for navigation and action buttons
         >
-          <CarTok 
-            car={car} 
-            isActive={index === activeIndex} 
+          <CarTok
+            car={car}
+            isActive={index === activeIndex}
             feedType={feedType}
             onShowProfile={handleShowProfile} // Passer la fonction pour afficher le profil
           />

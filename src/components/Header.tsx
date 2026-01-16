@@ -1,4 +1,4 @@
-import { Car } from 'lucide-react';
+import { Car, Settings, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 interface HeaderProps {
@@ -39,35 +39,22 @@ const Header = ({ activeTab = 'vente' }: HeaderProps) => {
 
   return (
     <header className={`safe-top fixed left-0 right-0 top-0 z-30 flex items-center justify-between px-4 pt-4 ${activeTab === 'location' ? 'location-theme' : ''}`}>
-      <div className="flex items-center gap-3 min-w-0"> {/* Increased gap for better spacing */}
+      <div className="flex items-center gap-3 min-w-0">
+        {/* Logo CT only - Premium look */}
         <div
-          className="flex h-12 w-12 items-center justify-center rounded-xl flex-shrink-0 cursor-pointer shadow-lg bg-white p-1"
+          className="flex h-12 w-12 items-center justify-center rounded-xl flex-shrink-0 cursor-pointer shadow-lg bg-white/10 backdrop-blur-md"
           onClick={handleLogoClick}
         >
-          {/* CARSTOK Logo */}
-          <img
-            src="/images/logo.png"
-            alt="CARSTOK Logo"
-            className="h-10 w-10 object-contain"
-          />
-        </div>
-        <div className="min-w-0"> {/* Allows this flex item to shrink */}
-          <h1 className="font-display text-xl font-bold text-white truncate"> {/* Increased size */}
-            {getTitle()}
-          </h1>
-          <p className="text-xs text-muted-foreground truncate">by Elyndra Tech</p>
+          <span className="text-xl font-bold text-white">CT</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 flex-shrink-0"> {/* Prevents buttons from shrinking */}
-        <button
-          onClick={() => {
-            // This button now serves as the car icon only
-            // The 7-click admin access is handled by the logo (C) click
-          }}
-          className="flex h-12 w-12 items-center justify-center rounded-full flex-shrink-0 bg-primary/10 hover:bg-primary/20 transition-colors shadow-lg" // Increased size
-        >
-          <Car className="h-7 w-7 text-primary" /> {/* Increased size */}
+      <div className="flex items-center gap-3">
+        <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg">
+          <Settings className="h-5 w-5 text-white" />
+        </button>
+        <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg">
+          <User className="h-5 w-5 text-white" />
         </button>
       </div>
     </header>

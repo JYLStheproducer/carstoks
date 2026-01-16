@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CarWithOwner } from '@/data/mockCars';
-import { formatPrice, formatMileage, formatViews } from '@/data/mockCars';
+import { formatPrice, formatMileage } from '@/data/mockCars';
 import { Button } from '@/components/ui/button';
 import { DataService } from '@/services/DataService';
 import {
@@ -15,28 +15,17 @@ import {
   Share,
   Star,
   Eye,
-  Navigation,
-  MessageCircle
+  Navigation
 } from 'lucide-react';
 
-interface CarTokProps {
+interface PremiumProductPageProps {
   car: CarWithOwner;
   isActive: boolean;
   feedType?: 'sales' | 'rental';
-  onShowProfile?: (ownerId: string) => void; // Nouvelle prop pour afficher le profil
+  onShowProfile?: (ownerId: string) => void;
 }
 
-const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile }: CarTokProps) => {
-  // Apply red theme when on rental feed
-  useEffect(() => {
-    if (typeof document !== 'undefined' && typeof window !== 'undefined') {
-      if (feedType === 'rental') {
-        document.documentElement.classList.add('location-theme');
-      } else {
-        document.documentElement.classList.remove('location-theme');
-      }
-    }
-  }, [feedType]);
+const PremiumProductPage = ({ car, isActive, feedType = 'sales', onShowProfile }: PremiumProductPageProps) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleWhatsApp = () => {
@@ -84,7 +73,7 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile }: CarTokProp
           <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg">
             <Share className="h-5 w-5 text-white" />
           </button>
-          <button
+          <button 
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg"
             onClick={() => onShowProfile && onShowProfile(car.ownerId)}
           >
@@ -92,38 +81,6 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile }: CarTokProp
           </button>
         </div>
       </header>
-
-      {/* Right Action Bar - Negotiate button */}
-      <div className="absolute bottom-20 right-4 z-10 flex flex-col items-center gap-4 sm:gap-5">
-        <button
-          onClick={handleWhatsApp}
-          className="flex flex-col items-center gap-2 transition-transform active:scale-95 relative btn-hover btn-active pulse"
-        >
-          <div className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-whatsapp shadow-xl">
-            <MessageCircle className="h-8 w-8 sm:h-9 sm:w-9 text-white" />
-          </div>
-          <span className="absolute -bottom-6 text-xs text-white font-medium bg-primary/20 px-2 py-1 rounded-full">Négocier</span>
-        </button>
-      </div>
-
-      {/* Profil du propriétaire au-dessus du bouton négocier */}
-      <div
-        className="absolute bottom-44 right-4 z-10 cursor-pointer"
-        onClick={() => onShowProfile && onShowProfile(car.ownerId)}
-      >
-        <div className="relative">
-          <img
-            src={car.ownerProfile.profilePicture}
-            alt={car.ownerProfile.name}
-            className="w-12 h-12 rounded-full border-2 border-white object-cover"
-          />
-          {car.ownerProfile.isDealer && (
-            <div className="absolute -bottom-1 -right-1 bg-primary rounded-full p-0.5">
-              <Briefcase className="h-3 w-3 text-white" />
-            </div>
-          )}
-        </div>
-      </div>
 
       {/* Main Content */}
       <div className="relative z-10 flex flex-col h-full pt-16 pb-32">
@@ -181,10 +138,10 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile }: CarTokProp
             className="w-full flex items-center justify-between p-3 bg-white/10 backdrop-blur-md rounded-xl text-white"
           >
             <span>Détails et équipements</span>
-            <svg
-              className={`h-5 w-5 transform transition-transform ${showDetails ? 'rotate-180' : ''}`}
-              fill="none"
-              viewBox="0 0 24 24"
+            <svg 
+              className={`h-5 w-5 transform transition-transform ${showDetails ? 'rotate-180' : ''}`} 
+              fill="none" 
+              viewBox="0 0 24 24" 
               stroke="currentColor"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -197,7 +154,7 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile }: CarTokProp
                 <h3 className="font-semibold text-white mb-2">Équipements</h3>
                 <div className="flex flex-wrap gap-2">
                   {car.features.map((feature, index) => (
-                    <span
+                    <span 
                       key={index}
                       className="px-3 py-1.5 bg-white/10 rounded-full text-sm text-white"
                     >
@@ -232,15 +189,54 @@ const CarTok = ({ car, isActive, feedType = 'sales', onShowProfile }: CarTokProp
 
       {/* Floating Action Button */}
       <div className="absolute bottom-24 left-4 right-4 z-20">
-        <Button
+        <Button 
           onClick={handleWhatsApp}
           className="w-full py-6 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-lg font-bold shadow-lg"
         >
           Acheter maintenant
         </Button>
       </div>
+
+      {/* Floating Bottom Navigation */}
+      <nav className="safe-bottom absolute bottom-0 left-0 right-0 z-40 bg-black/20 backdrop-blur-xl border-t border-white/10">
+        <div className="flex items-center justify-around px-4 py-3">
+          <button className="flex flex-col items-center gap-1 text-white/70">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span className="text-xs">Accueil</span>
+          </button>
+          
+          <button className="flex flex-col items-center gap-1 text-white/70">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span className="text-xs">Recherche</span>
+          </button>
+          
+          <button className="flex flex-col items-center gap-1 text-white">
+            <svg className="h-8 w-8 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full p-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </button>
+          
+          <button className="flex flex-col items-center gap-1 text-white/70">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span className="text-xs">Favoris</span>
+          </button>
+          
+          <button className="flex flex-col items-center gap-1 text-white/70">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span className="text-xs">Profil</span>
+          </button>
+        </div>
+      </nav>
     </div>
   );
 };
 
-export default CarTok;
+export default PremiumProductPage;
