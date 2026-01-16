@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { mockCars } from '@/data/mockCars';
 import { Car } from '@/types/car';
 import { formatPrice, formatMileage } from '@/data/mockCars';
@@ -15,18 +15,26 @@ import {
   ShoppingCart,
   Car as CarIcon,
 } from 'lucide-react';
+import MiniVehicleCard from './MiniVehicleCard';
 
-const ExplorePage = () => {
+interface ExplorePageProps {
+  searchResults?: any[];
+}
+
+const ExplorePage = ({ searchResults }: ExplorePageProps) => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'vente' | 'location'>('all');
 
+  // Use searchResults if provided, otherwise use mockCars
+  const allCars = searchResults || mockCars;
+
   // Get unique brands for filter
-  const brands = [...new Set(mockCars.map(car => car.brand))];
+  const brands = [...new Set(allCars.map(car => car.brand))];
 
   // Filter cars based on search term, selected brand and category
-  const filteredCars = mockCars.filter(car => {
+  const filteredCars = allCars.filter(car => {
     const matchesSearch =
       car.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -93,7 +101,7 @@ const ExplorePage = () => {
             <option value="location">Location</option>
           </select>
         </div>
-        
+
         <div className="flex justify-between items-center">
           <div className="flex gap-4">
             <p className="text-sm text-muted-foreground">
@@ -130,84 +138,26 @@ const ExplorePage = () => {
       {viewMode === 'grid' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredCars.map((car) => (
-            <div 
-              key={car.id} 
-              className="bg-card rounded-xl overflow-hidden border border-border/30 transition-all hover:shadow-lg"
-            >
-              <div className="relative">
-                <img 
-                  src={car.thumbnailUrl} 
-                  alt={`${car.brand} ${car.model}`} 
-                  className="w-full h-48 object-cover"
-                />
-                <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-full">
-                  {car.elyndraScore}%
-                </div>
-              </div>
-              
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <h3 className="font-bold text-lg text-white">{car.brand} {car.model}</h3>
-                    <p className="text-sm text-muted-foreground">{car.year} • {car.location}</p>
-                  </div>
-                  <p className="font-bold text-primary text-lg">{formatPrice(car.price)}</p>
-                </div>
-
-                <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground mb-3">
-                  <div className="flex items-center gap-1">
-                    <Gauge className="h-3 w-3" />
-                    <span>{formatMileage(car.mileage)}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Fuel className="h-3 w-3" />
-                    <span className="capitalize">{car.fuelType}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-3 w-3" />
-                    <span className="capitalize">{car.transmission}</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {car.features.slice(0, 3).map((feature, idx) => (
-                    <span
-                      key={idx}
-                      className="text-xs bg-primary/10 text-primary px-2 py-1 rounded"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                  {car.features.length > 3 && (
-                    <span className="text-xs text-muted-foreground">
-                      +{car.features.length - 3} autres
-                    </span>
-                  )}
-                </div>
-
-                <Button
-                  className="w-full"
-                  onClick={() => handleWhatsApp(car)}
-                >
-                  Contacter via WhatsApp
-                </Button>
-              </div>
-            </div>
+            <MiniVehicleCard
+              key={car.id}
+              vehicle={car}
+              onClick={() => {}} // Handle click to go back to feed centered on this vehicle
+            />
           ))}
         </div>
       ) : (
         <div className="space-y-4">
           {filteredCars.map((car) => (
-            <div 
-              key={car.id} 
+            <div
+              key={car.id}
               className="bg-card rounded-xl overflow-hidden border border-border/30 flex gap-4 p-4"
             >
-              <img 
-                src={car.thumbnailUrl} 
-                alt={`${car.brand} ${car.model}`} 
+              <img
+                src={car.thumbnailUrl}
+                alt={`${car.brand} ${car.model}`}
                 className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
               />
-              
+
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <div>
@@ -259,7 +209,7 @@ const ExplorePage = () => {
           ))}
         </div>
       )}
-      
+
       {filteredCars.length === 0 && (
         <div className="text-center py-12">
           <p className="text-muted-foreground">Aucun véhicule trouvé</p>

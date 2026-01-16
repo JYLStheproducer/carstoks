@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { DataService } from '@/services/DataService';
-import CarTok from './CarTok'; // Using the original for now, but could be swapped with PremiumProductPage
+import CarTok from './CarTok';
 import ProfileOwner from './ProfileOwner';
 import BackgroundTransition from './BackgroundTransition';
 
@@ -13,9 +13,10 @@ declare global {
 
 interface VideoFeedProps {
   feedType?: 'sales' | 'rental';
+  onChangeFeedType?: (type: 'sales' | 'rental') => void;
 }
 
-const VideoFeed = ({ feedType = 'sales' }: VideoFeedProps) => {
+const VideoFeed = ({ feedType = 'sales', onChangeFeedType }: VideoFeedProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showProfile, setShowProfile] = useState<string | null>(null); // État pour afficher le profil
   const [cars, setCars] = useState<any[]>([]);
@@ -143,13 +144,14 @@ const VideoFeed = ({ feedType = 'sales' }: VideoFeedProps) => {
       {carsToDisplay.map((car, index) => (
         <div
           key={car.id}
-          className="h-screen w-full snap-start pb-32" // Increased padding at bottom to account for navigation and action buttons
+          className="h-screen w-full snap-start"
         >
           <CarTok
             car={car}
             isActive={index === activeIndex}
             feedType={feedType}
             onShowProfile={handleShowProfile} // Passer la fonction pour afficher le profil
+            onChangeFeedType={onChangeFeedType}
           />
         </div>
       ))}
